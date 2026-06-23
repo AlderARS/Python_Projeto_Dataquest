@@ -1,342 +1,155 @@
-# 📱 Mobile App Ads Analysis
+# 📱 Análise de Mercado para Aplicativos Móveis
 
-## 📖 Sobre o Projeto
+## 🚀 Sobre o Projeto
 
-Neste projeto, assumimos o papel de analistas de dados em uma empresa que desenvolve aplicativos móveis gratuitos para Android e iOS.
+Este projeto realiza uma análise exploratória de dados de aplicativos da **Google Play Store** e da **Apple App Store** com o objetivo de identificar quais categorias de aplicativos gratuitos possuem maior potencial de atrair usuários e gerar receita através de anúncios.
 
-Como a principal fonte de receita da empresa é a exibição de anúncios dentro dos aplicativos, o objetivo deste estudo é identificar quais tipos de aplicativos possuem maior potencial para atrair usuários e, consequentemente, gerar mais receita.
-
-Para isso, foram analisados conjuntos de dados da App Store e do Google Play Store, buscando encontrar perfis de aplicativos que apresentem potencial de sucesso em ambas as plataformas.
+A proposta simula o cenário de uma empresa que desenvolve aplicativos gratuitos para Android e iOS, cuja principal fonte de receita é a monetização por anúncios.
 
 ---
 
-## 🎯 Objetivo de Negócio
+## 🎯 Objetivo
 
-Responder à seguinte pergunta:
-
-> Qual tipo de aplicativo gratuito possui maior potencial de atrair usuários e gerar receita por meio de anúncios tanto na App Store quanto no Google Play?
+Identificar perfis de aplicativos que apresentem potencial de sucesso simultaneamente na Google Play Store e na Apple App Store, utilizando dados reais de mercado para apoiar a tomada de decisão.
 
 ---
 
-## 🗂️ Bases de Dados
+## 📂 Bases de Dados
 
-Os dados utilizados neste projeto contêm informações sobre milhares de aplicativos disponíveis nas lojas:
+Os dados utilizados foram obtidos no Kaggle:
 
-* Google Play Store
-* Apple App Store
+* Google Play Store Dataset
+* Apple App Store Dataset
 
-As bases incluem informações como:
+As bases contêm informações sobre:
 
-* Nome do aplicativo
 * Categoria
-* Gênero
+* Avaliação dos usuários
 * Número de avaliações
-* Quantidade de instalações
-* Classificação dos usuários
-* Tipo do aplicativo (gratuito ou pago)
-
----
-
-# 🧹 Limpeza e Preparação dos Dados
-
-## 1. Identificação de Duplicatas
-
-O primeiro passo foi verificar a existência de registros duplicados.
-
-Duplicatas podem gerar distorções nas análises, uma vez que um mesmo aplicativo pode ser contabilizado mais de uma vez.
-
-Para identificar essas ocorrências, foi desenvolvida uma função que analisa os nomes dos aplicativos dentro da estrutura de dados.
-
----
-
-## 2. Remoção Inteligente de Duplicatas
-
-Foi observado que alguns aplicativos possuíam múltiplos registros com pequenas diferenças na coluna **Reviews**.
-
-Exemplo:
-
-| Aplicativo | Reviews  |
-| ---------- | -------- |
-| Instagram  | 66577446 |
-| Instagram  | 66577313 |
-
-Ao invés de remover registros aleatoriamente, foi adotada a seguinte regra:
-
-✅ Manter o registro com o maior número de avaliações.
-
-❌ Excluir os demais registros duplicados.
-
-Essa abordagem aumenta a probabilidade de preservar a versão mais atualizada do aplicativo.
-
----
-
-## 3. Seleção de Valores Únicos
-
-Após a remoção das duplicatas, foi criada uma nova base contendo apenas registros únicos para garantir maior consistência nas análises.
-
----
-
-## 4. Filtragem de Aplicativos em Inglês
-
-Como o objetivo do estudo é analisar aplicativos voltados para mercados de língua inglesa, foi necessário remover aplicativos destinados a outros idiomas.
-
-Exemplos:
-
-* 爱奇艺PPS
-* 网易新闻
-* 漫画道场
-
-Para isso foi utilizada uma função baseada na tabela ASCII.
-
-### Critério Utilizado
-
-Caracteres pertencentes ao conjunto ASCII padrão possuem códigos entre:
-
-0 e 127
-
-Foi estabelecida uma tolerância de até **3 caracteres especiais por nome de aplicativo**, evitando a exclusão indevida de aplicativos que utilizam emojis ou símbolos ocasionais.
-
----
-
-## 5. Seleção de Aplicativos Gratuitos
-
-Como o modelo de negócio da empresa depende de publicidade, apenas aplicativos gratuitos foram mantidos na análise.
-
-Aplicativos pagos foram removidos da base de dados.
-
----
-
-# 📊 Análise Exploratória
-
-## Visão Geral da App Store
-
-Entre os aplicativos gratuitos em inglês:
-
-| Categoria         | Participação |
-| ----------------- | ------------ |
-| Games             | 58,16%       |
-| Entertainment     | ~8%          |
-| Photo & Video     | ~5%          |
-| Education         | 3,66%        |
-| Social Networking | 3,29%        |
-
-### Insight
-
-A App Store apresenta forte concentração de aplicativos voltados para entretenimento:
-
-* Jogos
-* Música
-* Esportes
-* Redes Sociais
-* Fotos e Vídeos
-
-Já aplicativos voltados para produtividade e utilidade possuem menor oferta.
-
----
-
-## Visão Geral do Google Play
-
-O Google Play apresenta uma distribuição mais equilibrada entre:
-
-* Ferramentas
-* Negócios
-* Produtividade
-* Estilo de Vida
-* Família
-* Jogos
-
-Embora a categoria Família represente grande parcela dos aplicativos, boa parte dela é composta por jogos infantis.
-
-### Insight
-
-O Google Play possui um ecossistema mais diversificado entre entretenimento e aplicativos utilitários.
-
----
-
-# 📈 Aplicativos com Maior Potencial de Usuários
-
-## App Store
-
-Como não existe uma coluna específica de instalações na base da App Store, foi utilizado o número de avaliações como indicador aproximado de popularidade.
-
-### Categorias com maiores médias de avaliações
-
-* Navigation
-* Reference
-* Social Networking
-
----
-
-## Google Play
-
-### Categorias com maiores médias de instalações
-
-* Communication
-* Video Players
-* Social
-* Productivity
-* Photography
-* Game
-* Travel & Local
-* Entertainment
-* Books & Reference
-
----
-
-# 🔎 Análise Aprofundada
-
-## Navigation (App Store)
-
-Apesar da alta média de avaliações, a categoria é fortemente dominada por:
-
-* Google Maps
-* Waze
-
-Esses aplicativos concentram grande parte da demanda, tornando o mercado altamente competitivo.
-
-### Conclusão
-
-❌ Baixo potencial para novos entrantes.
-
----
-
-## Reference (App Store)
-
-A categoria apresenta média elevada de avaliações impulsionada por aplicativos como:
-
-* Bible
-* Dictionary.com
-
-Mesmo assim, o nicho demonstra oportunidades interessantes.
-
-### Possíveis ideias
-
-Transformar livros populares em aplicativos com recursos adicionais:
-
-* Citações diárias
-* Audiobooks
-* Quizzes
-* Fóruns de discussão
-* Dicionário integrado
-
-### Conclusão
-
-✅ Mercado promissor.
-
----
-
-## Social Networking (App Store)
-
-A média inicial era fortemente influenciada por grandes plataformas.
-
-| Cenário       | Média de Avaliações |
-| ------------- | ------------------- |
-| Com mega apps | 71.500              |
-| Sem mega apps | 13.900              |
-
-### Conclusão
-
-⚠️ Mercado atrativo, porém extremamente competitivo.
-
----
-
-## Communication (Google Play)
-
-A categoria apresenta números impressionantes de instalações.
-
-| Cenário       | Média de Instalações |
-| ------------- | -------------------- |
-| Com mega apps | 914.600.000          |
-| Sem mega apps | 3.600.000            |
-
-Os resultados são fortemente influenciados por:
-
-* WhatsApp
-* Facebook Messenger
-* Skype
-* Gmail
-* Chrome
-
-### Conclusão
-
-⚠️ Mercado dominado por grandes empresas.
-
----
-
-## Books & Reference (Google Play)
-
-Média de instalações:
-
-**8.767.811 downloads**
-
-O segmento inclui:
-
-* Leitores de e-books
-* Bibliotecas digitais
-* Dicionários
-* Materiais educacionais
-* Livros religiosos
-
-Apesar da existência de alguns aplicativos extremamente populares, o mercado ainda apresenta espaço para novos produtos.
-
-### Oportunidades identificadas
-
-Criar aplicativos baseados em livros populares adicionando funcionalidades extras:
-
-* Versão em áudio
-* Quizzes
-* Fóruns
-* Recomendações personalizadas
-* Citações diárias
-
-### Conclusão
-
-✅ Categoria com alto potencial em ambas as plataformas.
-
----
-
-# 🎯 Conclusão Final
-
-Após analisar os dados da App Store e do Google Play, identificamos que a categoria **Books & Reference** apresenta o melhor equilíbrio entre popularidade e nível de concorrência.
-
-A recomendação é desenvolver um aplicativo baseado em um livro popular, agregando funcionalidades que diferenciem o produto das bibliotecas digitais tradicionais.
-
-Possíveis diferenciais:
-
-* Audiobooks
-* Citações diárias
-* Sistema de gamificação
-* Fóruns de discussão
-* Quizzes e desafios
-* Recursos educacionais complementares
-
-Essa estratégia demonstra potencial para gerar tráfego consistente e monetização através de anúncios em ambas as plataformas.
+* Instalações
+* Preço
+* Gênero
+* Classificação etária
+* Versão
+* Entre outras métricas
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* Python
-* Jupyter Notebook
-* Estruturas de Dados (Listas e Dicionários)
-* Limpeza de Dados
-* Análise Exploratória de Dados (EDA)
+* 🐍 Python
+* 📓 Jupyter Notebook
+* 📂 CSV
+* 📊 Análise Exploratória de Dados (EDA)
 
 ---
 
-## 📚 Habilidades Demonstradas
+## 🔍 Etapas do Projeto
 
-* Data Cleaning
-* Data Wrangling
-* Remoção de Duplicatas
-* Tratamento de Dados Textuais
-* Análise Exploratória
+### 1️⃣ Importação dos Dados
+
+* Leitura dos arquivos CSV
+* Separação de cabeçalhos e registros
+* Exploração inicial das bases
+
+### 2️⃣ Limpeza dos Dados
+
+* Remoção de registros com erros
+* Identificação de inconsistências
+* Exclusão de aplicativos duplicados
+* Seleção da versão mais relevante dos registros duplicados com base na quantidade de avaliações
+
+### 3️⃣ Filtragem dos Dados
+
+Foram mantidos apenas:
+
+✅ Aplicativos gratuitos
+
+✅ Aplicativos em inglês
+
+✅ Registros únicos
+
+---
+
+## 📊 Análise de Mercado
+
+Foi realizada uma análise das categorias mais populares em ambas as plataformas.
+
+### Apple App Store
+
+Principais categorias identificadas:
+
+* 🎮 Games (58,16%)
+* 🎬 Entertainment (7,88%)
+* 📷 Photo & Video (4,97%)
+* 🎓 Education (3,66%)
+* 🌐 Social Networking (3,29%)
+
+Observação:
+
+A App Store apresenta predominância de aplicativos voltados para entretenimento e lazer.
+
+---
+
+### Google Play Store
+
+Principais categorias identificadas:
+
+* 👨‍👩‍👧 Family
+* 🛠️ Tools
+* 🎬 Entertainment
+* 🎓 Education
+* 💼 Business
+* 📈 Productivity
+
+Observação:
+
+A Google Play apresenta uma distribuição mais equilibrada entre aplicativos de entretenimento e aplicativos utilitários.
+
+---
+
+## 💡 Principais Insights
+
+Após a análise das duas plataformas, observou-se que a categoria **Books & Reference** apresenta potencial interessante:
+
+* Alta demanda de usuários
+* Menor concorrência em comparação com jogos
+* Possibilidade de monetização por anúncios
+* Potencial para funcionalidades adicionais
+
+Exemplos de recursos sugeridos:
+
+* 📖 Leitura digital
+* 🎧 Audiobooks
+* 📅 Citações diárias
+* 📝 Quizzes
+* 💬 Fóruns de discussão
+
+A recomendação final foi desenvolver um aplicativo baseado em livros populares, agregando funcionalidades adicionais que aumentem o engajamento dos usuários.
+
+---
+
+## 📈 Resultados
+
+* Limpeza e preparação de mais de 10 mil registros da Google Play Store.
+* Identificação de padrões de mercado em duas plataformas distintas.
+* Comparação entre oferta e demanda de categorias de aplicativos.
+* Definição de uma estratégia baseada em dados para desenvolvimento de novos produtos digitais.
+
+---
+
+## 📚 Competências Desenvolvidas
+
+* Análise Exploratória de Dados (EDA)
+* Limpeza e Tratamento de Dados
+* Manipulação de Listas e Dicionários
+* Leitura de Arquivos CSV
+* Estruturas de Controle em Python
 * Análise de Mercado
-* Extração de Insights
 * Tomada de Decisão Baseada em Dados
 
 ---
 
 ## 👨‍💻 Autor
 
-Projeto desenvolvido para prática de Análise de Dados utilizando Python e dados reais da App Store e Google Play Store.
+Projeto desenvolvido por AlderARS como parte dos estudos em Python, Análise de Dados e Ciência de Dados.
